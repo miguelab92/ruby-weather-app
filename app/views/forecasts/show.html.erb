@@ -1,0 +1,10 @@
+<div>
+  <%= link_to "Go to enter new address", root_path, class: "btn btn-primary" %>
+  <h1> <%= @address %> </h1>
+
+  if (add)
+  <div>
+    Current temperature:
+    <%= @forecast[:current_temperature] %>
+  </div>
+</div>

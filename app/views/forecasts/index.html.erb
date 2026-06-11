@@ -1,0 +1,18 @@
+<h1>Forecasts</h1>
+<p>Enter an address below to find forecast data</p>
+
+<%= form_with url: forecast_path, method: :get do |form| %>
+  <div>
+    <%= form.label :address, "Enter address:" %>
+    <%= form.text_field :address, placeholder: "Type address here..." %>
+    <button type="submit">Submit</button>
+  </div>
+<% end %>
+
+</br>
+
+<% if flash[:alert] %>
+  <div style="color: red;">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
