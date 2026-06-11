@@ -13,7 +13,7 @@ RSpec.describe ForecastsController, type: :controller do
     let(:params) { {} }
     let(:address) { Faker::Address.full_address }
 
-    shared_context :redirects_to_index do
+    shared_examples :redirects_to_index do
       it 'redirects to index' do
         get :show, params: params
         expect(response).to have_http_status(302)
@@ -34,20 +34,25 @@ RSpec.describe ForecastsController, type: :controller do
       let(:params) { { address: address } }
       let(:forecast) { }
 
-      before do
-        allow(ForecastService).to receive(:get_forecast).and_return(forecast)
-      end
+      # Because we're hitting 3rd party endpoints, we don't want our tests to trigger every time
+      # On a real workflow, I would want to make integration tests that ran as part of a larger set
+      # of integrations tests on MRs that were ready to merge, rather than everytime
+      context 'with mock' do
+        before do
+          allow(ForecastService).to receive(:get_forecast).and_return(forecast)
+        end
 
-      context 'ForecastService returns bad result' do
-        it_behaves_like :redirects_to_index
-      end
+        context 'ForecastService returns bad result' do
+          it_behaves_like :redirects_to_index
+        end
 
-      context 'ForecastService returns results' do
-        let(:forecast) { { current_temperature: 70 } }
+        context 'ForecastService returns results' do
+          let(:forecast) { { current_temperature: 70 } }
 
-        it 'returns successfully' do
-          get :show, params: params
-          expect(response).to have_http_status(200)
+          it 'returns successfully' do
+            get :show, params: params
+            expect(response).to have_http_status(200)
+          end
         end
       end
     end

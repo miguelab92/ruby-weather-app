@@ -38,10 +38,13 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.0"
 
-# Allows easy debugging with binding.pry
-gem "pry-rails"
+# Allows .env API keys
+gem "dotenv-rails"
+
+# Used for API calls
+gem "faraday"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -61,6 +64,10 @@ group :development, :test do
 
   # Easy fake info for tests
   gem "faker"
+
+  # Allows easy debugging with binding.pry
+  gem "pry-rails"
+  gem "pry-byebug"
 end
 
 group :development do

@@ -1,10 +1,52 @@
 <div>
-  <%= link_to "Go to enter new address", root_path, class: "btn btn-primary" %>
+  <%= link_to "Go to enter new address", forecasts_path, class: "btn btn-primary" %>
   <h1> <%= @address %> </h1>
 
-  if (add)
-  <div>
-    Current temperature:
-    <%= @forecast[:current_temperature] %>
-  </div>
+  <% if @forecast %> 
+    <div>
+      From cache? <%= @forecast["from_cache"] %>
+      </br>
+      
+      Current temperature:
+      <%= @forecast["current"]["temperature_2m"] %> <%= @forecast["current_units"]["temperature_2m"] %>
+      </br>
+      
+       <% if false %>
+        <!-- The site I'm using to gather precipitation from doesn't seem to return anything but 0, so commenting out -->
+        Current precipitation:
+        <%= @forecast["current"]["precipitation"] %> <%= @forecast["current_units"]["precipitation"] %>
+        </br>
+      <% end %>
+
+      <h3>Daily Highs and Lows</h3>
+      <table>
+        <thead>
+          <tr>
+            <th></th> <!-- Empty cell top left -->
+            <% @forecast["daily"]["time"].each do |x_label| %>
+              <th><%= x_label %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              Highs
+            </th>
+            <% @forecast["daily"]["temperature_2m_max"].each do |max_temp| %>
+              <td><%= max_temp %> <%= @forecast["daily_units"]["temperature_2m_max"] %></td>
+            <% end %>
+          </tr>
+          <tr>
+            <th>
+              Lows
+            </th>
+            <% @forecast["daily"]["temperature_2m_min"].each do |min_temp| %>
+              <td><%= min_temp %> <%= @forecast["daily_units"]["temperature_2m_min"] %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>
